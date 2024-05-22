@@ -4,6 +4,7 @@
 #include "keyboard.h"
 #include "timer.h"
 #include <unistd.h>
+#include <math.h>
 
 int x = 15, y = 25;
 int incX = 1, incY = 1;
@@ -33,7 +34,7 @@ void adicionarScore() {
   char nome[4];
   printf("Game Over\n");
   printf("Digite seu nome (3 caracteres): ");
-  scanf("%s", nome);
+  scanf("%3s", nome);
   const char *scores = "score.txt";
 
   FILE *file = fopen(scores, "a");
@@ -54,9 +55,9 @@ void exibirScore() {
   if (file == NULL) {
       return;
   }
-
-  while (fgets(linha, sizeof(linha), file)) {
-      printf("%s", linha);
+  
+  while (fgets(linha, sizeof(linha), file) != NULL){
+    printf("%s", linha);
   }
 
   fclose(file);
@@ -66,13 +67,10 @@ void exibirScore() {
 
 void printscenary(int x, int y){
   screenGotoxy(x,y);
-  printf("------------------------------");
+  printf("-----------------------------");
 }
 int perder(int x, int y , int inimigoX, int inimigoY ){
   if(inimigoX == x && inimigoY == y ){
-    screenClear();
-    adicionarScore();
-    exibirScore();
     return 1;
   }
   return 0;
@@ -114,7 +112,12 @@ int printCar(struct car **head){
         printf("%c", draw[i][j]);
       }
     }
-    if (perder(x,y,temp->carX, temp->carY) == 1)return 1;
+    if (perder(x,y,temp->carX, temp->carY) == 1){
+      screenClear();
+      adicionarScore();
+      exibirScore();
+      return 1;
+    }
     temp = temp->next;
     printf("  ");
   }
@@ -122,12 +125,30 @@ int printCar(struct car **head){
 
 };
 
+int pirntmoscas(int x, int y, int pontX, int pontY){
+  screenGotoxy(pontX,pontY);
+  printf("𖠑");
+  if(perder(x, y,pontX,pontY)==1){
+    screenGotoxy(pontX,pontY);
+    printf(" ");
+    return 0;
+  }else{
+    return 1;
+  }
+}
+
 int main() 
 {
+    srand(time(NULL));
     static int ch = 0;
     struct car *head=NULL;
     int localx=3,localy=20,localincX=1,localincY=0;
-    for(int i=0; i<5; i++){
+    int pontX, pontY, fly=1;
+  
+    pontX = rand() % (MAXX - MINX + 1) + MINX;
+    pontY = rand() % (MAXY - MINY + 1) + MINY;
+    
+  for(int i=0; i<5; i++){
 
       adicionar(&head,localx,localy,localincX,localincY);
       if(0==i)localy-=4,localx+=20;
@@ -157,7 +178,14 @@ int main()
       printscenary(3,8);
       printscenary(3,6);
       printscenary(3,4);
+      
 
+     
+
+      if(pirntmoscas(x, y, pontX, pontY) == 0 ){
+        pontX = rand() % (MAXX - MINX + 1) + MINX;
+        pontY = rand() % (MAXY - MINY + 1) + MINY;
+      }
       
       int nextX=x,nextY=y;
       
@@ -188,8 +216,8 @@ int main()
           
         }else if( ch == 100){
            nextX = x+incX;
-          if(nextX==28){
-            nextX=27;
+          if(nextX==31){
+            nextX=30;
           }
          
         }
