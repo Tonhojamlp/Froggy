@@ -27,7 +27,7 @@ void printNewPosition(int nextX, int nextY)
     x = nextX;
     y = nextY;
     screenGotoxy(x, y);
-    printf("𖠊");
+    printf("𓆏");
 }
 
 void adicionarScore() {
@@ -69,12 +69,19 @@ void printscenary(int x, int y){
   screenGotoxy(x,y);
   printf("-----------------------------");
 }
-int perder(int x, int y , int inimigoX, int inimigoY ){
+int colisaomosca(int x, int y , int inimigoX, int inimigoY){
   if(inimigoX == x && inimigoY == y ){
     return 1;
   }
   return 0;
 };
+int colisaocarro(int x, int y, int inimigoX, int inimigoY) {
+    if (inimigoY == y && inimigoX <= x && x <= inimigoX + 1) {
+        return 1; // Houve colisão
+    }
+    return 0; // Não houve colisão
+}
+
 
 
 
@@ -112,7 +119,7 @@ int printCar(struct car **head){
         printf("%c", draw[i][j]);
       }
     }
-    if (perder(x,y,temp->carX, temp->carY) == 1){
+    if (colisaocarro(x,y,temp->carX, temp->carY) == 1){
       screenClear();
       adicionarScore();
       exibirScore();
@@ -121,14 +128,12 @@ int printCar(struct car **head){
     temp = temp->next;
     printf("  ");
   }
-
-
 };
 
 int pirntmoscas(int x, int y, int pontX, int pontY){
   screenGotoxy(pontX,pontY);
-  printf("𖠑");
-  if(perder(x, y,pontX,pontY)==1){
+  printf("𓆦");
+  if(colisaomosca(x, y,pontX,pontY)==1){
     screenGotoxy(pontX,pontY);
     printf(" ");
     return 0;
@@ -143,11 +148,16 @@ int main()
     static int ch = 0;
     struct car *head=NULL;
     int localx=3,localy=20,localincX=1,localincY=0;
-    int pontX, pontY, fly=1;
+    int pontX, pontY;
+    int score = 0, opcao = 0; 
+    int velocidade = 90000;
   
-    pontX = rand() % (MAXX - MINX + 1) + MINX;
-    pontY = rand() % (MAXY - MINY + 1) + MINY;
-    
+    pontX = rand() % ((MAXX-3) - MINX + 1) + MINX;
+    pontY = rand() % ((MAXY-3) - MINY + 1) + MINY;
+
+
+  if(opcao = 1){
+
   for(int i=0; i<5; i++){
 
       adicionar(&head,localx,localy,localincX,localincY);
@@ -183,8 +193,9 @@ int main()
      
 
       if(pirntmoscas(x, y, pontX, pontY) == 0 ){
-        pontX = rand() % (MAXX - MINX + 1) + MINX;
-        pontY = rand() % (MAXY - MINY + 1) + MINY;
+        score += 100;
+        pontX = rand() % ((MAXX-2) - MINX + 4) + MINX;
+        pontY = rand() % ((MAXY-2) - MINY + 4) + MINY;
       }
       
       int nextX=x,nextY=y;
@@ -233,12 +244,12 @@ int main()
        
       ch=0;
       screenUpdate();
-      usleep(90000);
+      usleep(velocidade-score);
     }
 
     keyboardDestroy();
     screenDestroy();
     timerDestroy();
-
+    }
     return 0;
 }
