@@ -40,7 +40,7 @@ O seu objetivo, é atravessar uma rua enquanto desvia de carros e come moscas pa
 Para executar o Froggy, siga estas etapas:
 
 1. Clone Nosso repositório em sua máquina:
-   [`Lorem Ipsum has been the industry's standard`](https://github.com/Tonhojamlp/Froggy.git)
+   [`Clone aqui!`](https://github.com/Tonhojamlp/Froggy.git)
 
 2. Compile o programa:
    
