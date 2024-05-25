@@ -5,6 +5,7 @@
 #include "timer.h"
 #include <unistd.h>
 #include <math.h>
+#include <stdio.h>
 
 int x = 15, y = 25;
 int incX = 1, incY = 1;
@@ -17,6 +18,11 @@ struct car{
   
   struct car *next;
 }car;
+struct node{
+  char nome[5];
+  int score;
+  struct node *next;
+};
 
 // Criando o jogador
 void printNewPosition(int nextX, int nextY)
@@ -30,37 +36,65 @@ void printNewPosition(int nextX, int nextY)
     printf("𓆏");
 }
 
-void adicionarScore() {
+void adicionarScore(int score) {
   char nome[4];
   printf("Game Over\n");
   printf("Digite seu nome (3 caracteres): ");
   scanf("%3s", nome);
-  const char *scores = "score.txt";
 
-  FILE *file = fopen(scores, "a");
-  if (file == NULL) {
-      return;
+   const char *scores = "score.txt";
+
+    FILE *file = fopen(scores, "a");
+    if (file == NULL) {
+        return;
+    }  
+    fprintf(file, "%s\t%d\n",nome, score);
+  
+    fclose(file);
   }
-
-  fprintf(file, "%s\n", nome);
-
-  fclose(file);
+void adicionar1(struct node **head, char *nome, int score){
+  struct node *novo = (struct node *)malloc(sizeof(struct node));
+  strcpy(novo->nome, nome);
+  novo->score = score;
+  novo->next = NULL;
+  
+  if(*head==NULL || (*head)->score<novo->score){
+    novo->next=*head;
+    *head=novo;
+  }
+  else{
+    struct node *atual=*head;
+    while(atual->next!=NULL && atual->next->score > novo->score){
+      atual=atual->next;
+    }
+    novo->next=atual->next;
+    atual->next=novo;
+  
+    }
 }
 
-void exibirScore() {
+void exibirScore(struct node **head) {
   const char *scores = "score.txt";
-  char linha[256];
+  char nome[4];
+  int score;
+  
 
   FILE *file = fopen(scores, "r");
   if (file == NULL) {
       return;
   }
-  
-  while (fgets(linha, sizeof(linha), file) != NULL){
-    printf("%s", linha);
+  while(!feof(file)){
+    fscanf(file,"%s\t%d\n",nome,&score);
+    adicionar1(head,nome, score);
   }
-
   fclose(file);
+  struct node *temp=*head;
+  int i=1;
+  while(temp!=NULL){
+    printf("[%d]\t%s\t%d\n",i,temp->nome,temp->score);
+    temp=temp->next;
+    i++;
+  }
 }
 
 //para criar um carro se movendo tem que criar variaveis independentes que vao mudar de posicao
@@ -82,9 +116,6 @@ int colisaocarro(int x, int y, int inimigoX, int inimigoY) {
     return 0; // Não houve colisão
 }
 
-
-
-
 void adicionar(struct car **head,int localx,int localy,int localincX,int localincY){
   struct car *novo = (struct car *)malloc(sizeof(struct car));
   novo->carX = localx;
@@ -96,8 +127,6 @@ void adicionar(struct car **head,int localx,int localy,int localincX,int localin
   novo->next=(*head);
   (*head)=novo;
     
-  
-  
 }
 int printCar(struct car **head){
   struct car *temp = *head;
@@ -120,9 +149,6 @@ int printCar(struct car **head){
       }
     }
     if (colisaocarro(x,y,temp->carX, temp->carY) == 1){
-      screenClear();
-      adicionarScore();
-      exibirScore();
       return 1;
     }
     temp = temp->next;
@@ -142,8 +168,15 @@ int pirntmoscas(int x, int y, int pontX, int pontY){
   }
 }
 
+void printvalor(int x , int y, int score){
+  screenSetColor(YELLOW, LIGHTBLUE);
+  screenGotoxy(x,y);
+  printf("Score:%d",score);
+}
+
 int main() 
 {
+    struct node *jogadores=NULL;
     srand(time(NULL));
     static int ch = 0;
     struct car *head=NULL;
@@ -152,11 +185,12 @@ int main()
     int score = 0, opcao = 0; 
     int velocidade = 90000;
   
-    pontX = rand() % ((MAXX-3) - MINX + 1) + MINX;
-    pontY = rand() % ((MAXY-3) - MINY + 1) + MINY;
+    pontX = rand() % ((30) - 1 ) + 1;
+    pontY = rand() % ((25) - 1 ) + 1;
 
-
-  if(opcao = 1){
+    printNewPosition(x, y);
+    screenUpdate();
+  
 
   for(int i=0; i<5; i++){
 
@@ -171,14 +205,15 @@ int main()
     keyboardInit();
     timerInit(50);
     
-    printNewPosition(x, y);
-    screenUpdate();
+    
 
 
     
     
     while (ch != 10) //enter
     {
+      printvalor(3,1,score);
+
       printscenary(3,19);
       printscenary(3,21);
       printscenary(3,17);
@@ -194,8 +229,8 @@ int main()
 
       if(pirntmoscas(x, y, pontX, pontY) == 0 ){
         score += 100;
-        pontX = rand() % ((MAXX-2) - MINX + 4) + MINX;
-        pontY = rand() % ((MAXY-2) - MINY + 4) + MINY;
+        pontX = rand() % ((MAXX-5) - MINX + 5) + MINX;
+        pontY = rand() % ((MAXY-5) - MINY + 5) + MINY;
       }
       
       int nextX=x,nextY=y;
@@ -240,16 +275,21 @@ int main()
       
 
       //Printando todos os carros
-     if(printCar(&head)==1)break ;
+     if(printCar(&head)==1){
+       break;
+     } 
+       
        
       ch=0;
       screenUpdate();
       usleep(velocidade-score);
-    }
 
-    keyboardDestroy();
-    screenDestroy();
-    timerDestroy();
     }
+  keyboardDestroy();
+  screenDestroy();
+  timerDestroy();
+  adicionarScore(score); 
+  exibirScore(&jogadores);
+  
     return 0;
 }

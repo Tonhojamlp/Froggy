@@ -1,0 +1,14 @@
+asd	0
+waw	0
+pop	0
+aaa	300
+kkk	0
+vvv	400
+aaa	300
+ooo	0
+aaa	100
+dds	0
+mmm	0
+pao	1200
+ppp	0
+lll	0
