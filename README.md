@@ -40,14 +40,15 @@ O seu objetivo, é atravessar uma rua enquanto desvia de carros e come moscas pa
 Para executar o Froggy, siga estas etapas:
 
 1. Clone Nosso repositório em sua máquina:
-   [`Clone aqui!`](https://github.com/Tonhojamlp/Froggy.git)
+   ```
+   https://github.com/Tonhojamlp/Froggy.git
 
 2. Compile o programa:
    
-   1. Abra o terminal do seu sistema operacional.
-   2. Vá para o diretório principal do jogo: “src” por meio do comando ‘cd’.
-   3. Compile o código fonte utilizando do comando: gcc ‘main.c’ ‘screen.c’ ‘timer.c’ ‘keyboard.c’ -o ‘Froggy’
-   4. Assim, já com o arquivo “src” criado, ainda no terminal, execute o comando: ./Froggy
+   - Abra o terminal do seu sistema operacional.
+   - Vá para o diretório principal do jogo: “src” por meio do comando ‘cd’.
+   - Compile o código fonte utilizando do comando: gcc ‘main.c’ ‘screen.c’ ‘timer.c’ ‘keyboard.c’ -o ‘Froggy’
+   - Assim, já com o arquivo “src” criado, ainda no terminal, execute o comando: ./Froggy
    
 3. Jogue Froggy e tente não se estressar!
 
