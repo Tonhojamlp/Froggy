@@ -22,48 +22,34 @@
 
 ## 📄 Descrição
 
-Nosso jogo escolhido para o projeto de PIF foi o froggy, um classico reimaginado , mudamos algumas coisas no objetivo do porem garantimos que a diversão continua a mesma
+Nosso jogo escolhido para o projeto de PIF foi o Froggy, uma reimaginação do clássico Frogger. Mudamos algumas coisas no objetivo do jogo, porém garantimos que a diversão continua a mesma.
 
 ## 🎲 Objetivo do Jogo
 
-Recolher moscas pela rodovia evitando ser atropelado e assim juntar pontos e compedir com os outros jogadores
-
-### ⚾ Múltiplas Bolas:
-Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-
-### 👾 Pontuação Duplicada:
-Lorem Ipsum has been the industry's standard
-
-### ⚡️ Alta Velocidade:
-Lorem Ipsum has been the industry's standard
+O seu objetivo, é atravessar uma rua enquanto desvia de carros e come moscas para aumentar o seu score, mas cuidado! Quanto maior a pontuação, maior a dificuldade!
 
 ## 🕹️ Como Jogar
 
-- Use as teclas "w" ,"a", "s","d" para controlar o "sapo".
+- Use as teclas "w" ,"a", "s","d" para controlar o sapo.
 - Certifique-se de manter o caps lock desativado.
 - Evite os carros para não dar "Game Over".
-- E junte as moscas para ganhar pontos e power ups ou down.
+- E colete as moscas para ganhar pontos.
 
 ## ♟️ Executando o Jogo
 
-Para executar o Pong2, siga estas etapas:
+Para executar o Froggy, siga estas etapas:
 
-1. Clone este repositório em sua máquina:
-   `Lorem Ipsum has been the industry's standard`
+1. Clone Nosso repositório em sua máquina:
+   [`Lorem Ipsum has been the industry's standard`](https://github.com/Tonhojamlp/Froggy.git)
 
-3. Compile o programa:
+2. Compile o programa:
    
-   Utiliza os seguintes comandos:
-     - cd src
-     - make
-      
-   Ao finaliza utilezr make clean:
-
-5. Rode o programa:
-   Utilize esse comando para rodar :
-      ./Froggy
+   1. Abra o terminal do seu sistema operacional.
+   2. Vá para o diretório principal do jogo: “src” por meio do comando ‘cd’.
+   3. Compile o código fonte utilizando do comando: gcc ‘main.c’ ‘screen.c’ ‘timer.c’ ‘keyboard.c’ -o ‘Froggy’
+   4. Assim, já com o arquivo “src” criado, ainda no terminal, execute o comando: ./Froggy
    
-6. Jogo Froggy e tente não se estressar
+3. Jogue Froggy e tente não se estressar!
 
 ## 👩‍💻 Membros
 
