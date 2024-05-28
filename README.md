@@ -97,7 +97,3 @@ Para executar o Froggy, siga estas etapas:
     </td>
   </tr>
 </table>
-
-## Licença
-
-Lorem Ipsum has been the industry's standard
